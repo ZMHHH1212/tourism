@@ -29,12 +29,12 @@ You need **SAS** with **Excel import** (`PROC IMPORT ... DBMS=XLSX`). The easies
 Click **Code → Download ZIP** on GitHub and unzip it (or `git clone` it).
 
 ### 2. Upload it to SAS Studio, keeping the folder structure
-In SAS Studio, open **Server Files and Folders → Files (Home)**, create a folder (for example `tourism`), and upload so that it looks like this:
+In SAS Studio, open **Server Files and Folders → Files (Home)**, create a folder (for example `SASP`), and upload so that it looks like this:
 
 ```
-tourism/                      <- your project folder
+SASP/                         <- your project folder (this repo uses /home/u64590750/SASP)
 ├── tourism_recovery.sas
-└── data/                     <- must be named exactly "data" (lowercase)
+└── Data/                     <- must be named exactly "Data" (capital D)
     ├── arrivals_650_80001.xlsx
     ├── hko_daily_temp.csv
     ├── hotel_occupancy_monthly.csv
@@ -42,20 +42,20 @@ tourism/                      <- your project folder
     └── reopen_policy.dat
 ```
 
-> SAS OnDemand runs on Linux, so **folder and file names are case-sensitive**. `data` is not the same as `Data`.
+> SAS OnDemand runs on Linux, so **folder and file names are case-sensitive**. `Data` is not the same as `data`.
 > The `output` folder is created automatically on the first run.
 
 ### 3. Paste your folder path into the program (line 26)
-Open `tourism_recovery.sas` and change
+Open `tourism_recovery.sas` and look at
 
 ```sas
-%let proj = ;
+%let proj = /home/u64590750/SASP;
 ```
 
-to the path of **the folder that contains `data`**, with no slash at the end. For example:
+The program ships with the author's exact SAS OnDemand path. If your SAS user ID or folder name is different, change it to the path of **the folder that contains `Data`**, with no slash at the end. For example:
 
 ```sas
-%let proj = /home/u12345678/tourism;
+%let proj = /home/u12345678/mytourism;
 ```
 
 Tip: in SAS Studio, right-click your folder, choose **Properties**, and copy the **Location** path.
@@ -81,7 +81,7 @@ Look at the **Log** tab: there should be **no red `ERROR` lines**. Then compare 
 
 | Problem | Fix |
 |---------|-----|
-| `ERROR: Physical file does not exist, .../data/...` | The path in line 26 is wrong, or the folder is not named exactly `data` (lowercase). |
+| `ERROR: Physical file does not exist, .../Data/...` | The path in line 26 is wrong, or the folder is not named exactly `Data` (capital D). |
 | `ERROR: File WORK.ARRIVALS_RAW.DATA does not exist` | The Excel file was not found. Fix the path above and run again from the top. |
 | Nothing appears in Results | Run the whole program, not just one selected step. |
 | Excel import fails on your own computer | `PROC IMPORT` with `DBMS=XLSX` needs *SAS/ACCESS Interface to PC Files*. Use SAS OnDemand instead. |
@@ -103,7 +103,7 @@ Some values are fixed in the program, so update them if you change the data file
 
 ## Data sources
 
-The files in `data/` come from public sources. Please check each provider's terms before reusing them.
+The files in `Data/` come from public sources. Please check each provider's terms before reusing them.
 
 | File | Source |
 |------|--------|

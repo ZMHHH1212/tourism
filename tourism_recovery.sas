@@ -23,7 +23,7 @@ ods graphics off;
 
 /* proj is a nickname for the project folder. &proj means "paste that folder here".
    Leave this blank in the repo. Each person types their own SAS folder here (see README). */
-%let proj = ;
+%let proj = /home/u64590750/SASP;
 
 /* This line makes sure the output folder exists. The charts and one working file are written there. */
 libname gp "&proj/output";
@@ -33,7 +33,7 @@ libname gp "&proj/output";
 /* The text file has two lines. The first 9 characters are a date, like 06FEB2023.
    The words start at character 11. truncover means a short line is not an error. */
 data policy;
-    infile "&proj/data/reopen_policy.dat" truncover;
+    infile "&proj/Data/reopen_policy.dat" truncover;
     length event $80;                          /* room for 80 characters of description */
     input date date9. @11 event $char80.;      /* read the date, jump to column 11, read the words */
     format date date9.;                        /* show the date as 06FEB2023, not a raw number */
@@ -52,7 +52,7 @@ run;
 /* C&SD table 650-80001. Row 4 is the header. Rows 5-16 are places.
    The last three rows of the sheet are notes, so the range stops at row 19.
    getnames=yes uses row 4 as the column names. replace means overwrite the table if it exists. */
-proc import datafile="&proj/data/arrivals_650_80001.xlsx"
+proc import datafile="&proj/Data/arrivals_650_80001.xlsx"
             out=arrivals_raw dbms=xlsx replace;
     range="Arrivals$A4:JM19";
     getnames=yes;
@@ -143,7 +143,7 @@ run;
 /* firstobs=2 skips the header row. dlm="," means the columns are separated by commas.
    dsd means two commas in a row are an empty value, not a skipped column. */
 data occupancy;
-    infile "&proj/data/hotel_occupancy_monthly.csv" dlm="," dsd firstobs=2 truncover;
+    infile "&proj/Data/hotel_occupancy_monthly.csv" dlm="," dsd firstobs=2 truncover;
     length ym_c $8;
     input ym_c $ occupancy;                    /* example: 202108 and 71 */
     /* Characters 1-4 are the year. Characters 5-6 are the month. Day is always the 1st. */
@@ -154,7 +154,7 @@ run;
 
 /* Same layout as the occupancy file. room_rate is the average room price in Hong Kong dollars. */
 data room_rate;
-    infile "&proj/data/hotel_room_rate_monthly.csv" dlm="," dsd firstobs=2 truncover;
+    infile "&proj/Data/hotel_room_rate_monthly.csv" dlm="," dsd firstobs=2 truncover;
     length ym_c $8;
     input ym_c $ room_rate;
     month_dt = mdy(input(substr(ym_c, 5, 2), 2.), 1, input(substr(ym_c, 1, 4), 4.));
@@ -173,7 +173,7 @@ proc sort data=room_rate nodupkey; by month_dt; run;
    A day is kept only when the year is four digits and the temperature is a real number.
    That drops the legend, because the legend is words, not a year. */
 data hko_daily;
-    infile "&proj/data/hko_daily_temp.csv" encoding="utf-8"
+    infile "&proj/Data/hko_daily_temp.csv" encoding="utf-8"
            dlm="," dsd firstobs=4 truncover;
     length year_c $12 month_c $8 rawval $24;
     input year_c $ month_c $ day_c $ rawval $ completeness $;

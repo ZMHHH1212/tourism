@@ -15,8 +15,32 @@ The program merges four public data sources into **one row per month (60 months,
 | 5 | t-tests (`PROC TTEST`) | After minus Before reopening, for room rate and occupancy |
 | 6 | Table | Two room-rate models compared on hidden 2025–26 months |
 
+### What the six outputs look like
+
+**Output 1: visitor arrivals by market**
+
 ![Output 1](docs/output1_arrivals_by_group.png)
+
+**Output 2: room rate vs occupancy**
+
 ![Output 2](docs/output2_rate_vs_occupancy.png)
+
+**Output 3: yearly averages**
+
+![Output 3](docs/output3_yearly_means.png)
+
+**Output 4: four highest and lowest months**
+
+![Output 4](docs/output4_top_bottom_months.png)
+
+**Output 5: t-tests, Before vs After reopening**
+
+![Output 5, room rate](docs/output5a_ttest_room_rate.png)
+![Output 5, occupancy](docs/output5b_ttest_occupancy.png)
+
+**Output 6: holdout error of the two models**
+
+![Output 6](docs/output6_holdout_mae.png)
 
 ---
 
@@ -45,20 +69,25 @@ SASP/                         <- your project folder (this repo uses /home/u6459
 > SAS OnDemand runs on Linux, so **folder and file names are case-sensitive**. `Data` is not the same as `data`.
 > The `output` folder is created automatically on the first run.
 
-### 3. Paste your folder path into the program (line 26)
-Open `tourism_recovery.sas` and look at
+### 3. Edit ONE line: your folder path (line 26)
+
+Open `tourism_recovery.sas`. **Line 26 is the only line you ever need to change.** Every other path in the program is built from it.
 
 ```sas
-%let proj = /home/u64590750/SASP;
+%let proj = /home/u64590750/SASP;     <- line 26: replace this path with YOUR folder
 ```
 
-The program ships with the author's exact SAS OnDemand path. If your SAS user ID or folder name is different, change it to the path of **the folder that contains `Data`**, with no slash at the end. For example:
+| Part of the path | What to put |
+|------------------|-------------|
+| `/home/` | keep as is |
+| `u64590750` | **your own SAS user ID** (the author's is shown; yours is different) |
+| `SASP` | **the name of the folder you uploaded**, the one that contains `Data` |
+| end of line | no `/` at the end, keep the `;` |
 
-```sas
-%let proj = /home/u12345678/mytourism;
-```
+Example: user ID `u12345678` and folder `mytourism` gives `%let proj = /home/u12345678/mytourism;`
 
-Tip: in SAS Studio, right-click your folder, choose **Properties**, and copy the **Location** path.
+How to find the path: in SAS Studio, right-click your folder, choose **Properties**, and copy the **Location**.
+If your folder is also called `SASP`, you only need to change your user ID.
 
 ### 4. Run it
 Open the program and press **Run** (the running-person icon, or `F3`). Open the **Results** tab to see Outputs 1–6.

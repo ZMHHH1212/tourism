@@ -21,8 +21,9 @@ options validvarname=v7 dlcreatedir nodate;
 /* Graphs stay off until the two charts. Otherwise SAS draws extras we do not want. */
 ods graphics off;
 
-/* proj is a nickname for the project folder. &proj means "paste that folder here".
-   Leave this blank in the repo. Each person types their own SAS folder here (see README). */
+/* ==> THE ONLY LINE YOU EDIT <==
+   proj is a nickname for the project folder. &proj means "paste that folder here".
+   Change the path below to YOUR SAS folder (the one that contains the Data folder). See README. */
 %let proj = /home/u64590750/SASP;
 
 /* This line makes sure the output folder exists. The charts and one working file are written there. */
